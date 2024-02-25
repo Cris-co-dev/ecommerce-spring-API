@@ -1,29 +1,21 @@
 package com.crisdev.api.storeapi.persistence.entity;
 
+import com.crisdev.api.storeapi.persistence.entity.util.PromotionCategoryPK;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "promotion_category")
 public class PromotionCategory {
+    @EmbeddedId
+    private PromotionCategoryPK id;
 
-    private Long categoryId;
-
-    private Long promotionId;
-
-    public Long getCategoryId() {
-        return categoryId;
+    public PromotionCategoryPK getId() {
+        return id;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Long getPromotionId() {
-        return promotionId;
-    }
-
-    public void setPromotionId(Long promotionId) {
-        this.promotionId = promotionId;
+    public void setId(PromotionCategoryPK id) {
+        this.id = id;
     }
 }

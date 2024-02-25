@@ -7,9 +7,12 @@ import java.io.Serializable;
 @Entity
 @Table(name = "payment_type")
 public class PaymentType implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "\"value\"")
     private String value;
 
     public Long getId() {

@@ -1,6 +1,7 @@
 package com.crisdev.api.storeapi.persistence.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ public class Promotion implements Serializable {
 
     @Column(name = "discount_rate")
     private BigDecimal discountRate;
+    @CreationTimestamp
     private LocalDate startDate;
     private LocalDate endDate;
 
