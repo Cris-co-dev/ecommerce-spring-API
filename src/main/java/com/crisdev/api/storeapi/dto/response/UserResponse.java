@@ -1,6 +1,8 @@
 package com.crisdev.api.storeapi.dto.response;
 
-public class UserResponse {
+import java.io.Serializable;
+
+public class UserResponse implements Serializable {
 
     private Long id;
 
