@@ -60,7 +60,7 @@ public class ProductController {
         return responses.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(responses);
     }
 
-    @GetMapping
+    @GetMapping("/name")
     public ResponseEntity<Page<ProductResponse>> readAllByNameLike(@RequestParam String name, Pageable pageable) {
         Page<ProductResponse> responses = productService.findByNameLikeIgnoreCase(name, pageable);
         return responses.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(responses);

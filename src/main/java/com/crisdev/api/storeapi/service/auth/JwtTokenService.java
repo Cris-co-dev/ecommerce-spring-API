@@ -1,6 +1,5 @@
 package com.crisdev.api.storeapi.service.auth;
 
-import com.crisdev.api.storeapi.persistence.repository.JwtTokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

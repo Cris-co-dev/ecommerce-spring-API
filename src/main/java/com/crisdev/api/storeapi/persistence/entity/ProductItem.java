@@ -1,5 +1,6 @@
 package com.crisdev.api.storeapi.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

@@ -1,5 +1,6 @@
 package com.crisdev.api.storeapi.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ public class ShoppingCartItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private ShoppingCart shoppingCart;
