@@ -1,5 +1,6 @@
 package com.crisdev.api.storeapi.persistence.entity;
 
+import com.crisdev.api.storeapi.persistence.entity.security.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -22,6 +23,12 @@ public class Address {
     private String region;
     @ManyToOne
     private Country country;
+
+    @Column(name = "is_default")
+    private boolean isDefault;
+
+    @ManyToOne
+    private User users;
 
     public Long getId() {
         return id;
@@ -77,5 +84,21 @@ public class Address {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
+
+    public User getUser() {
+        return users;
+    }
+
+    public void setUser(User users) {
+        this.users = users;
     }
 }
