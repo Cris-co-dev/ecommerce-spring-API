@@ -15,6 +15,13 @@ public class PaymentType implements Serializable {
     @Column(name = "\"value\"")
     private String value;
 
+    public PaymentType() {
+    }
+
+    public PaymentType(String value) {
+        this.value = value;
+    }
+
     public Long getId() {
         return id;
     }
