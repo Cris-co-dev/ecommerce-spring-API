@@ -1,27 +1,11 @@
-package com.crisdev.api.storeapi.persistence.entity;
-
-import jakarta.persistence.*;
+package com.crisdev.api.storeapi.dto.request;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "shipping_method")
-public class ShippingMethod implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ShippingMethodRequest implements Serializable {
     private String name;
     private BigDecimal price;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
