@@ -15,7 +15,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,8 +56,13 @@ public class AddressServiceImpl implements AddressService {
         User user = userRepository.findById(addressRequest.getUserId())
                 .orElseThrow(() -> new ObjectNotFoundException("User not found with id: " + addressRequest.getUserId()));
 
-        if (addressRequest.isDefault()) {
-            user.getAddresses().forEach(a -> a.setDefault(false));
+        List<Address> addressList = addressRepository.findAllByUser(user);
+
+        if (addressRequest.isDefault() && !addressList.isEmpty()) {
+            addressList.forEach(ar -> {
+                ar.setDefault(false);
+                addressRepository.save(ar);
+            });
         }
 
         Address address = new Address();
@@ -84,8 +88,13 @@ public class AddressServiceImpl implements AddressService {
         User user = userRepository.findById(addressRequest.getUserId())
                 .orElseThrow(() -> new ObjectNotFoundException("User not found with id: " + addressRequest.getUserId()));
 
-        if (addressRequest.isDefault()) {
-            user.getAddresses().forEach(a -> a.setDefault(false));
+        List<Address> addressList = addressRepository.findAllByUser(user);
+
+        if (addressRequest.isDefault() && !addressList.isEmpty()) {
+            addressList.forEach(ar -> {
+                ar.setDefault(false);
+                addressRepository.save(ar);
+            });
         }
 
         Address address = addressRepository.findById(id)
@@ -109,11 +118,24 @@ public class AddressServiceImpl implements AddressService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User not found with id: " + userId));
 
-        user.getAddresses().forEach(address -> address.setDefault(Objects.equals(address.getId(), addressId)));
-        userRepository.save(user);
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new ObjectNotFoundException("Address not found with id: " + addressId));
 
-        return entityToResponse(addressRepository.findById(addressId)
-                .orElseThrow(() -> new ObjectNotFoundException("Address not found with id: " + addressId)));
+        List<Address> addressList = addressRepository.findAllByUser(user);
+
+        addressList.forEach(userAddress -> {
+
+            if (userAddress.getId().equals(addressId)) {
+                userAddress.setDefault(!userAddress.isDefault());
+            } else {
+                userAddress.setDefault(false);
+                addressRepository.save(userAddress);
+            }
+        });
+
+        Address updatedAddress = addressRepository.save(address);
+
+        return entityToResponse(updatedAddress);
     }
 
     @Override
