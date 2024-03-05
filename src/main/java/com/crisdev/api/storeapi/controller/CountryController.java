@@ -29,6 +29,13 @@ public class CountryController {
         return ResponseEntity.ok(countries);
     }
 
+    @GetMapping("/{countryId}")
+    public ResponseEntity<Country> readOneCountry(@PathVariable Long countryId) {
+        Country country = countryService.readById(countryId);
+
+        return ResponseEntity.ok(country);
+    }
+
     @PostMapping
     public ResponseEntity<Country> addCountry(@RequestBody @Valid CountryRequest countryRequest) {
         Country country = countryService.addCountry(countryRequest);
