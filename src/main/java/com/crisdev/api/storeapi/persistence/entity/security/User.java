@@ -1,6 +1,7 @@
 package com.crisdev.api.storeapi.persistence.entity.security;
 
 import com.crisdev.api.storeapi.persistence.entity.Address;
+import com.crisdev.api.storeapi.persistence.entity.UserPaymentMethod;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,9 +25,13 @@ public class User implements Serializable, UserDetails {
     private String password;
 
     @OneToMany(
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private List<Address> addresses;
+    @OneToMany(
+            fetch = FetchType.EAGER
+    )
+    private List<UserPaymentMethod> paymentMethods;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -107,6 +112,14 @@ public class User implements Serializable, UserDetails {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<UserPaymentMethod> getPaymentMethods() {
+        return paymentMethods;
+    }
+
+    public void setPaymentMethods(List<UserPaymentMethod> paymentMethods) {
+        this.paymentMethods = paymentMethods;
     }
 
     public List<Address> getAddresses() {

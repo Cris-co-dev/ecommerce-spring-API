@@ -1,7 +1,6 @@
 package com.crisdev.api.storeapi.persistence.entity;
 
 import com.crisdev.api.storeapi.persistence.entity.security.User;
-import com.crisdev.api.storeapi.persistence.entity.util.PaymentMethodProviderEnum;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -14,18 +13,15 @@ public class UserPaymentMethod implements Serializable {
    @Id
    @GeneratedValue
    private Long id;
-
    @ManyToOne
    @JoinColumn(name = "user_id")
    private User user;
-
    @ManyToOne
    @JoinColumn(name = "payment_type_id")
    private PaymentType paymentType;
-
-   @Enumerated(value = EnumType.STRING)
-   private PaymentMethodProviderEnum paymentMethodProviderEnum;
-   private String account_number;
+   private String provider;
+   @Column(name = "account_number")
+   private String accountNumber;
    private Date expiryDate;
    private boolean isDefault;
 
@@ -53,20 +49,19 @@ public class UserPaymentMethod implements Serializable {
       this.paymentType = paymentType;
    }
 
-   public PaymentMethodProviderEnum getPaymentMethodProviderEnum() {
-      return paymentMethodProviderEnum;
+   public String getProvider() {
+      return provider;
+   }
+   public void setProvider(String provider) {
+      this.provider = provider;
    }
 
-   public void setPaymentMethodProviderEnum(PaymentMethodProviderEnum paymentMethodProviderEnum) {
-      this.paymentMethodProviderEnum = paymentMethodProviderEnum;
+   public String getAccountNumber() {
+      return accountNumber;
    }
 
-   public String getAccount_number() {
-      return account_number;
-   }
-
-   public void setAccount_number(String account_number) {
-      this.account_number = account_number;
+   public void setAccountNumber(String account_number) {
+      this.accountNumber = account_number;
    }
 
    public Date getExpiryDate() {

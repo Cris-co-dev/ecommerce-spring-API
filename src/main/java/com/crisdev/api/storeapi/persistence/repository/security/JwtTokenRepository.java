@@ -1,4 +1,4 @@
-package com.crisdev.api.storeapi.persistence.repository;
+package com.crisdev.api.storeapi.persistence.repository.security;
 
 import com.crisdev.api.storeapi.persistence.entity.security.JwtToken;
 import org.springframework.data.jpa.repository.JpaRepository;
