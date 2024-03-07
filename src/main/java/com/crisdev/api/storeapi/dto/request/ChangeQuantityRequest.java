@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ChangeQuantityRequest implements Serializable {
 
     private Long userId;
-    private String quantity;
+    private Integer quantity;
 
     public Long getUserId() {
         return userId;
@@ -15,11 +15,11 @@ public class ChangeQuantityRequest implements Serializable {
         this.userId = userId;
     }
 
-    public String getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 }

@@ -37,16 +37,16 @@ public class PaymentTypeImpl implements PaymentTypeService {
     }
 
     @Override
-    public PaymentType addPaymentType(PaymentTypeRequest countryRequest) {
-        return paymentTypeRepository.save(new PaymentType(countryRequest.getValue()));
+    public PaymentType addPaymentType(PaymentTypeRequest paymentTypeRequest) {
+        return paymentTypeRepository.save(new PaymentType(paymentTypeRequest.getValue()));
     }
 
     @Override
-    public PaymentType updatePaymentType(Long id, PaymentTypeRequest countryRequest) {
+    public PaymentType updatePaymentType(Long id, PaymentTypeRequest paymentTypeRequest) {
         PaymentType paymentType = paymentTypeRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("PaymentType not found with id: " + id));
 
-        paymentType.setValue(countryRequest.getValue());
+        paymentType.setValue(paymentTypeRequest.getValue());
 
         return paymentTypeRepository.save(paymentType);
     }
