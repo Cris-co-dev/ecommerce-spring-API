@@ -1,6 +1,5 @@
 package com.crisdev.api.storeapi.persistence.entity;
 
-import com.crisdev.api.storeapi.persistence.entity.util.OrderStatusEnum;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -11,9 +10,7 @@ public class OrderStatus implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Enumerated(value = EnumType.STRING)
-    private OrderStatusEnum orderStatusEnum;
+    private String status;
 
     public Long getId() {
         return id;
@@ -23,11 +20,11 @@ public class OrderStatus implements Serializable {
         this.id = id;
     }
 
-    public OrderStatusEnum getOrderStatusEnum() {
-        return orderStatusEnum;
+    public String getStatus() {
+        return status;
     }
 
-    public void setOrderStatusEnum(OrderStatusEnum orderStatusEnum) {
-        this.orderStatusEnum = orderStatusEnum;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
