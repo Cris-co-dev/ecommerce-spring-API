@@ -50,12 +50,11 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressResponse createNewAddress(AddressRequest addressRequest) {
-        Country country = countryRepository.findById(addressRequest.getCountryId())
-                .orElseThrow(() -> new ObjectNotFoundException("Country not found with id: " + addressRequest.getCountryId()));
-
         User user = userRepository.findById(addressRequest.getUserId())
                 .orElseThrow(() -> new ObjectNotFoundException("User not found with id: " + addressRequest.getUserId()));
 
+        Country country = countryRepository.findById(addressRequest.getCountryId())
+                .orElseThrow(() -> new ObjectNotFoundException("Country not found with id: " + addressRequest.getCountryId()));
         List<Address> addressList = addressRepository.findAllByUser(user);
 
         if (addressRequest.isDefault() && !addressList.isEmpty()) {
@@ -66,8 +65,8 @@ public class AddressServiceImpl implements AddressService {
         }
 
         Address address = new Address();
-        address.setAddressLineOne(address.getAddressLineTwo());
-        address.setAddressLineTwo(address.getAddressLineTwo());
+        address.setAddressLineOne(addressRequest.getAddressLineOne());
+        address.setAddressLineTwo(addressRequest.getAddressLineTwo());
         address.setCity(addressRequest.getCity());
         address.setPostalCode(addressRequest.getPostalCode());
         address.setRegion(addressRequest.getRegion());
@@ -99,8 +98,8 @@ public class AddressServiceImpl implements AddressService {
 
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Address not found with id: " + id));
-        address.setAddressLineOne(address.getAddressLineTwo());
-        address.setAddressLineTwo(address.getAddressLineTwo());
+        address.setAddressLineOne(addressRequest.getAddressLineOne());
+        address.setAddressLineTwo(addressRequest.getAddressLineTwo());
         address.setCity(addressRequest.getCity());
         address.setPostalCode(addressRequest.getPostalCode());
         address.setRegion(addressRequest.getRegion());
@@ -149,6 +148,9 @@ public class AddressServiceImpl implements AddressService {
     private AddressResponse entityToResponse(Address address) {
         AddressResponse addressResponse = new AddressResponse();
         BeanUtils.copyProperties(address, addressResponse);
+        addressResponse.setAddressId(address.getId());
+        addressResponse.setCountryId(address.getCountry().getId());
+        addressResponse.setUserId(address.getUser().getId());
 
         return addressResponse;
     }
