@@ -3,7 +3,6 @@ package com.crisdev.api.storeapi.persistence.repository;
 import com.crisdev.api.storeapi.persistence.entity.Address;
 import com.crisdev.api.storeapi.persistence.entity.security.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

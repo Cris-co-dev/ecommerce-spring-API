@@ -28,7 +28,7 @@ public class Address {
     private boolean isDefault;
 
     @ManyToOne
-    private User users;
+    private User user;
 
     public Long getId() {
         return id;
@@ -95,10 +95,10 @@ public class Address {
     }
 
     public User getUser() {
-        return users;
+        return user;
     }
 
-    public void setUser(User users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
