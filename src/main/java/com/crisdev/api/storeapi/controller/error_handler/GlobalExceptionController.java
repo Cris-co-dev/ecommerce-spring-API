@@ -24,7 +24,7 @@ public class GlobalExceptionController {
         GenericApiError response = new GenericApiError();
         response.setMessage("Error interno en el servidor, vuelva a intentarlo");
         response.setUrl(request.getRequestURL().toString());
-        response.setMethod(response.getMethod());
+        response.setMethod(request.getMethod());
         response.setBackendMessage(e.getMessage());
         response.setTimestamp(LocalDateTime.now());
 
