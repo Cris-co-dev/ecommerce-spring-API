@@ -5,6 +5,8 @@ import com.crisdev.api.storeapi.dto.response.AddressResponse;
 import com.crisdev.api.storeapi.dto.response.OrderLineResponse;
 import com.crisdev.api.storeapi.dto.response.ShopOrderResponse;
 import com.crisdev.api.storeapi.exception.ObjectNotFoundException;
+import com.crisdev.api.storeapi.exception.OrderTotalException;
+import com.crisdev.api.storeapi.exception.ShoppingCartEmptyException;
 import com.crisdev.api.storeapi.persistence.entity.*;
 import com.crisdev.api.storeapi.persistence.entity.security.User;
 import com.crisdev.api.storeapi.persistence.repository.*;
@@ -89,7 +91,7 @@ public class ShopOrderServiceImpl implements ShopOrderService {
         Set<ShoppingCartItem> shoppingCartItems = cart.getShoppingCartItems();
 
         if (shoppingCartItems.isEmpty()) {
-            //TODO throw exception error
+            throw new ShoppingCartEmptyException("The shopping cart is empty");
         }
 
         ShopOrder shopOrder = new ShopOrder();
@@ -115,11 +117,12 @@ public class ShopOrderServiceImpl implements ShopOrderService {
 
         shopOrder.setOrders(orderLines);
 
-        //TODO create exception for orderTotal
+
         BigDecimal orderTotal = shoppingCartItems.stream()
                 .map(item -> item.getProductItem().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal::add)
-                .map(total -> total.add(shippingMethod.getPrice())).orElseThrow();
+                .map(total -> total.add(shippingMethod.getPrice()))
+                .orElseThrow(() -> new OrderTotalException("Error cannot calculate the order total"));
 
         shopOrder.setOrderTotal(orderTotal);
 
@@ -135,7 +138,7 @@ public class ShopOrderServiceImpl implements ShopOrderService {
         OrderStatus orderStatus = orderStatusRepository.findById(orderStatusId)
                 .orElseThrow(() -> new ObjectNotFoundException("Order status not found with id:" + orderStatusId));
 
-        if (Objects.equals(order.getOrderStatus().getId(),orderStatus.getId())){
+        if (Objects.equals(order.getOrderStatus().getId(), orderStatus.getId())) {
             return shopOrderEntityToResponse(order);
         }
 
@@ -148,7 +151,7 @@ public class ShopOrderServiceImpl implements ShopOrderService {
 
     private static ShopOrderResponse shopOrderEntityToResponse(ShopOrder savedShopOrder) {
         ShopOrderResponse shopOrderResponse = new ShopOrderResponse();
-        BeanUtils.copyProperties(savedShopOrder,shopOrderResponse);
+        BeanUtils.copyProperties(savedShopOrder, shopOrderResponse);
         shopOrderResponse.setOrderStatus(savedShopOrder.getOrderStatus().getStatus());
         shopOrderResponse.setTotal(savedShopOrder.getOrderTotal());
         shopOrderResponse.setOrderDetails(orderLineEntityToResponse(savedShopOrder.getOrders()));
