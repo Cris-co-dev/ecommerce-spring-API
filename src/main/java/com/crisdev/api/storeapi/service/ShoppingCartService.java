@@ -12,5 +12,5 @@ public interface ShoppingCartService {
     ShoppingCartResponse readCart(ShoppingCartRequest shoppingCartRequest);
     ShoppingCartItemResponse updateProductQuantity(Long productItemId, ChangeQuantityRequest changeQuantityRequest);
     ShoppingCartItemResponse deleteProductItem(DeleteItemRequest deleteItemRequest);
-    boolean clearCart(Long userId);
+    void clearCart(Long userId);
 }

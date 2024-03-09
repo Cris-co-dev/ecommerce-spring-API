@@ -19,6 +19,7 @@ import com.crisdev.api.storeapi.persistence.repository.security.UserRepository;
 import com.crisdev.api.storeapi.service.ShoppingCartService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -93,6 +94,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .findAny()
                 .orElseThrow(() -> new ObjectNotFoundException("ProductItem not found with id: " + productItemId));
 
+        shoppingCartItem.setQuantity(changeQuantityRequest.getQuantity());
+
         ShoppingCartItem updatedItem = shoppingCartItemRepository.save(shoppingCartItem);
 
         return entityToResponse("Quantity updated successfully", updatedItem);
@@ -121,14 +124,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public boolean clearCart(Long userId) {
+    public void clearCart(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User not found with id: " + userId));
 
         ShoppingCart cart = shoppingCartRepository.findByUser(user);
         shoppingCartItemRepository.deleteAll(cart.getShoppingCartItems());
 
-        return cart.getShoppingCartItems().isEmpty();
     }
 
     private CartItem entityToDto(ShoppingCartItem shoppingCartItem) {
@@ -136,7 +138,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItem.setId(shoppingCartItem.getProductItem().getId());
         cartItem.setName(shoppingCartItem.getProductItem().getProduct().getName());
         cartItem.setQuantity(shoppingCartItem.getQuantity());
-        cartItem.setPrice(shoppingCartItem.getProductItem().getPrice());
+        cartItem.setPrice(shoppingCartItem.getProductItem().getPrice()
+                .multiply(BigDecimal.valueOf(shoppingCartItem.getQuantity())));
         return cartItem;
 
     }

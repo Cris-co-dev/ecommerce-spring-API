@@ -6,18 +6,20 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "shop_order")
 public class ShopOrder implements Serializable {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private UUID id;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "shopOrder")
+    private List<OrderLine> orders;
 
     @Column(name = "order_date")
     private LocalDateTime orderDate;
@@ -40,11 +42,11 @@ public class ShopOrder implements Serializable {
     @JoinColumn(name = "order_status")
     private OrderStatus orderStatus;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -102,5 +104,13 @@ public class ShopOrder implements Serializable {
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public List<OrderLine> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderLine> orders) {
+        this.orders = orders;
     }
 }
