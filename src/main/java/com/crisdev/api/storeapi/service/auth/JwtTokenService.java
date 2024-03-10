@@ -22,6 +22,7 @@ public class JwtTokenService{
 
     @Value("${security.jwt.secret-key}")
     private String SECRET_KEY;
+
     public String generateJwtToken(UserDetails user, Map<String,Object> extraClaims){
 
         Date issuedAt = new Date(System.currentTimeMillis());
@@ -44,15 +45,15 @@ public class JwtTokenService{
         return Keys.hmacShaKeyFor(passwordDecoded);
     }
 
-    public String extractUsername(String jwt) {
-        return extractAllClaims(jwt).getSubject();
+    public String extractEmail(String jwt) {
+        return extractAllClaims(jwt).get("email", String.class);
     }
 
     private Claims extractAllClaims(String jwt) {
         return Jwts.parser().verifyWith(generateKey()).build().parseSignedClaims(jwt).getPayload();
     }
 
-    private String extractJwtFromRequest(HttpServletRequest request){
+    public String extractJwtFromRequest(HttpServletRequest request){
         String authorizationHeader = request.getHeader("Authorization");
         if (!StringUtils.hasText(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")){
             return null;

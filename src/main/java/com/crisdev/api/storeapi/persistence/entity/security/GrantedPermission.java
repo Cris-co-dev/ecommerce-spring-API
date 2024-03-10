@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "granted_permission")
 public class GrantedPermission implements Serializable {
 
     @Id
